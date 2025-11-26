@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net9.0-windows7.0</TargetFramework>
+		<RootNamespace>plan_fighting_super_start</RootNamespace>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<!-- Nhóm giữ resource Designer -->
+	<ItemGroup>
+		<Compile Update="Properties\Resource.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<!-- Nhóm giữ resource .resx -->
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resource.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<!-- NHÓM LOẠI TRỪ MÃ API KHỎI PROJECT WINFORMS -->
+	<ItemGroup>
+		<!-- Loại toàn bộ file .cs ở thư mục API -->
+		<Compile Remove="Leaderboard.Api\**\*.cs" />
+		<!-- (Tuỳ chọn) loại luôn mọi tài nguyên nếu có -->
+		<EmbeddedResource Remove="Leaderboard.Api\**\*" />
+		<Page Remove="Leaderboard.Api\**\*" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="boss.png" />
+	  <None Remove="bossgame.mp3" />
+	  <None Remove="resources\boss.png" />
+	  <None Remove="resources\playerrr.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <COMReference Include="WMPLib">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>6bf52a50-394a-11d3-b153-00c04f79faa6</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+	  </COMReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="bossgame.mp3">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="4.0.4.2" />
+	  <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0-preview2.25289.6" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
+	  <PackageReference Include="NAudio" Version="2.2.1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="resources\NenBOSS.jpg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>

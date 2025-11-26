@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "plan-fighting-super-start": {
+      "commandName": "Project",
+      "sqlDebugging": false,
+      "nativeDebugging": false,
+      "remoteDebugEnabled": false
+    }
+  }
+}
