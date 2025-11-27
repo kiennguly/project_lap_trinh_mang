@@ -103,6 +103,16 @@ namespace plan_fighting_super_start.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap client {
+            get {
+                object obj = ResourceManager.GetObject("client", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Gemini_Generated_Image_47v10s47v10s47v1 {
             get {
                 object obj = ResourceManager.GetObject("Gemini_Generated_Image_47v10s47v10s47v1", resourceCulture);
@@ -133,9 +143,29 @@ namespace plan_fighting_super_start.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap host {
+            get {
+                object obj = ResourceManager.GetObject("host", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NenBOSS {
             get {
                 object obj = ResourceManager.GetObject("NenBOSS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nensolo {
+            get {
+                object obj = ResourceManager.GetObject("nensolo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
