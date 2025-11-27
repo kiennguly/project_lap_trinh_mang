@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace plan_fighting_super_start
 {
-    /// <summary>
+    
     /// Tìm phòng LAN bằng UDP broadcast.
     /// - Máy Host: phát thông tin phòng (Mã phòng + Port) định kỳ.
     /// - Máy Client: lắng nghe broadcast, tìm đúng Mã phòng rồi gọi callback trả về IP host + port.
-    /// </summary>
+    
     public class TimPhongQuaLAN : IDisposable
     {
         public const int CONG_BROADCAST = 9876;
@@ -26,10 +26,10 @@ namespace plan_fighting_super_start
         private CancellationTokenSource _ctsNghePhong;
         private Task _tacVuNghePhong;
 
-        // ==================== HOST: PHÁT PHÒNG ====================
-        /// <summary>
+        // HOST: PHÁT PHÒNG 
+       
         /// Host bắt đầu phát thông tin phòng ra LAN.
-        /// </summary>
+        
         public void BatDauPhatPhong(string maPhong, int port, int chuKyMs = 1000)
         {
             DungPhatPhong();
@@ -86,10 +86,9 @@ namespace plan_fighting_super_start
             _ctsPhatPhong = null;
         }
 
-        // ==================== CLIENT: TÌM PHÒNG ====================
-        /// <summary>
+        // CLIENT: TÌM PHÒNG 
         /// Client lắng nghe broadcast, khi tìm thấy phòng có mã trùng thì gọi callback(hostIp, port).
-        /// </summary>
+        
         public void BatDauTimPhong(string maPhongCanTim, Action<string, int> khiTimThayPhong)
         {
             DungTimPhong();
@@ -157,7 +156,7 @@ namespace plan_fighting_super_start
             _ctsNghePhong = null;
         }
 
-        // ==================== UTIL: LẤY ĐỊA CHỈ BROADCAST ====================
+        //  LẤY ĐỊA CHỈ BROADCAST 
         private IEnumerable<IPAddress> LayTatCaDiaChiBroadcast()
         {
             var list = new List<IPAddress>();

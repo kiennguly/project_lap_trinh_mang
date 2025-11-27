@@ -63,6 +63,16 @@ namespace plan_fighting_super_start.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap anh_form_account_user {
+            get {
+                object obj = ResourceManager.GetObject("anh_form_account_user", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap anhnenrank {
             get {
                 object obj = ResourceManager.GetObject("anhnenrank", resourceCulture);

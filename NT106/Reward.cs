@@ -21,7 +21,7 @@ namespace plan_fighting_super_start
             new RewardInfo { Level = 100,DamageBonus = 30, GoldBonus = 2000 }
         };
 
-        // ===== Màu UI giống Menu =====
+        //  Màu UI giống Menu
         private readonly Color Teal = Color.FromArgb(0, 192, 192);
         private readonly Color BgDark = Color.FromArgb(10, 15, 30);
         private readonly Color BgPanel = Color.FromArgb(15, 22, 45);
@@ -41,12 +41,10 @@ namespace plan_fighting_super_start
             UpdateRewardUI();
         }
 
-        // ===== Áp dụng theme cho form =====
+        // Áp dụng theme cho form
         private void ApplyTheme()
         {
-            // Nếu bạn vẫn muốn giữ BackgroundImage thì không cần set BackColor,
-            // còn nếu muốn nền tối giống Menu thì uncomment dòng dưới:
-            // this.BackgroundImage = null;
+            
             this.BackColor = BgDark;
 
             // Label info
@@ -88,7 +86,7 @@ namespace plan_fighting_super_start
             };
         }
 
-        // ===== Logic reward =====
+        // Logic reward 
 
         private bool IsLevelClaimed(int level)
         {
@@ -121,7 +119,7 @@ namespace plan_fighting_super_start
         {
             int level = AccountData.Level;
 
-            // ----- Cập nhật danh sách checkbox -----
+            //  Cập nhật danh sách checkbox 
             checkedListRewards.Items.Clear();
 
             foreach (var r in _rewards)
@@ -135,7 +133,7 @@ namespace plan_fighting_super_start
 
             checkedListRewards.Enabled = false; // chỉ hiển thị, không cho tự tick
 
-            // ----- Label + nút -----
+            // Label + nút 
             bool anyAvailable = false;
             List<string> available = new List<string>();
 

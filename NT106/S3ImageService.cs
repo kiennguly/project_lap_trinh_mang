@@ -13,6 +13,7 @@ namespace plan_fighting_super_start
 {
     public class S3ImageService
     {
+        // API Gateway URL trỏ tới Lambda Image
         private const string API_IMAGE =
             "https://2cd28uutce.execute-api.ap-southeast-1.amazonaws.com/image";
 
@@ -26,9 +27,7 @@ namespace plan_fighting_super_start
         private const int AVATAR_MAX_SIZE = 128;        // giảm từ 256 xuống
         private const long AVATAR_JPEG_QUALITY = 60L;   // JPEG quality thấp => dung lượng nhẹ
 
-        // =====================================================================
         // UPLOAD AVATAR: tự resize + nén JPEG rồi gửi lên AWS
-        // =====================================================================
         public async Task<string> UploadImageAsync(string filePath, string username)
         {
             byte[] optimizedBytes = OptimizeImage(filePath);
@@ -69,9 +68,7 @@ namespace plan_fighting_super_start
             return key;
         }
 
-        // =====================================================================
         // GET IMAGE TỪ S3 (CÓ CACHE)
-        // =====================================================================
         public async Task<Image> GetImageAsync(string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -113,9 +110,7 @@ namespace plan_fighting_super_start
             return img;
         }
 
-        // =====================================================================
         // TỐI ƯU ẢNH (RESIZE + NÉN JPEG)
-        // =====================================================================
         private byte[] OptimizeImage(string filePath)
         {
             using var original = Image.FromFile(filePath);

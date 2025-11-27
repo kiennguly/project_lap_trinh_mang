@@ -8,12 +8,7 @@ using System.Threading.Tasks;
 
 namespace plan_fighting_super_start
 {
-    /// <summary>
-    /// Quản lý kết nối LAN thuần bằng TCP (không dùng WebSocket/AWS).
-    /// - Host: lắng nghe client.
-    /// - Client: kết nối tới Host.
-    /// - Gửi/nhận: dữ liệu game, chat trong phòng, tín hiệu bắt đầu game.
-    /// </summary>
+   
     public class QuanLyMangLAN : IDisposable
     {
         private TcpListener _listener;
@@ -25,20 +20,17 @@ namespace plan_fighting_super_start
         public bool DaKetNoi => _client != null && _client.Connected && _stream != null;
 
         // Sự kiện cho Room/GAME form đăng ký
-        public event Action<string> NhanThongDiepGame;           // payload game
-        public event Action<string, string> NhanTinChat;         // (tenHienThi, noiDung)
-        public event Action BatDauGame;                          // khi nhận lệnh bắt đầu
-        public event Action MatKetNoi;                           // khi bên kia ngắt kết nối
+        public event Action<string> NhanThongDiepGame;          
+        public event Action<string, string> NhanTinChat;         
+        public event Action BatDauGame;                          
+        public event Action MatKetNoi;                          
 
         private const string TYPE_GAME = "GAME";
         private const string TYPE_CHAT = "CHAT";
         private const string TYPE_CTRL = "CTRL";
 
-        // ==================== HOST ====================
-        /// <summary>
-        /// Bắt đầu làm Host (server TCP) trên port chỉ định.
-        /// Hàm này chờ tới khi có 1 client kết nối thì mới return.
-        /// </summary>
+        //  HOST 
+        
         public async Task BatDauHostAsync(int port)
         {
             LaHost = true;
@@ -61,10 +53,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==================== CLIENT ====================
-        /// <summary>
-        /// Client kết nối tới Host LAN bằng IP và port.
-        /// </summary>
+        //  CLIENT 
         public async Task KetNoiDenHostAsync(string ipHost, int port)
         {
             LaHost = false;
@@ -85,28 +74,21 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==================== API GỬI TIN ====================
-        /// <summary>
-        /// Gửi dữ liệu game (payload tự định nghĩa, ví dụ JSON).
-        /// </summary>
+        // API GỬI TIN 
         public Task GuiThongDiepGameAsync(string payload)
         {
             return GuiDongAsync($"{TYPE_GAME}|{payload}");
         }
 
-        /// <summary>
         /// Gửi tin nhắn chat trong phòng.
-        /// Ví dụ tenHienThi = [123456][HOST][kien]
-        /// </summary>
+       
         public Task GuiTinChatAsync(string tenHienThi, string noiDung)
         {
             string dong = $"{TYPE_CHAT}|{tenHienThi}|{noiDung}";
             return GuiDongAsync(dong);
         }
 
-        /// <summary>
         /// Gửi lệnh bắt đầu game (host gọi).
-        /// </summary>
         public Task GuiLenhBatDauGameAsync()
         {
             return GuiDongAsync($"{TYPE_CTRL}|START_GAME");
@@ -129,7 +111,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==================== VÒNG NHẬN DỮ LIỆU ====================
+        //  VÒNG NHẬN DỮ LIỆU 
         private async Task VongNhanDuLieuAsync(CancellationToken token)
         {
             var reader = new StreamReader(_stream, Encoding.UTF8);
@@ -202,7 +184,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==================== HỦY / DISPOSE ====================
+        // HỦY / DISPOSE
         public void HuyKetNoi()
         {
             try { _cts?.Cancel(); } catch { }

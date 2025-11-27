@@ -4,7 +4,6 @@ import base64
 import boto3
 
 # ===== KẾT NỐI DYNAMODB =====
-# Có thể đặt biến môi trường TABLE_NAME, nếu không thì mặc định "BangXepHang"
 TABLE_NAME = os.environ.get("TABLE_NAME", "BangXepHang")
 
 dynamodb = boto3.resource("dynamodb")
@@ -121,7 +120,6 @@ def lambda_handler(event, context):
     http_info = event.get("requestContext", {}).get("http", {})
     method = (http_info.get("method") or "").upper()
 
-    # Dùng rawPath nếu có, fallback về http.path; bỏ dấu / cuối cho chắc
     raw_path = (event.get("rawPath") or http_info.get("path") or "").lower().rstrip("/")
 
     # 0) CORS preflight
@@ -189,9 +187,7 @@ def lambda_handler(event, context):
                 pass
 
         ranking = get_ranking(limit)
-        # Tuỳ bạn có muốn ghi lại Rank mỗi lần GET hay không.
-        # Nếu muốn, mở comment dòng dưới:
-        # persist_rank(ranking, max_write=limit)
+        
 
         return make_response(200, {"ok": True, "ranking": ranking})
 

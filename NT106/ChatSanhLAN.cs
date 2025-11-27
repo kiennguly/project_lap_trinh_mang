@@ -9,14 +9,7 @@ using System.Threading.Tasks;
 
 namespace plan_fighting_super_start
 {
-    /// <summary>
-    /// Chat sảnh LAN:
-    /// - UDP broadcast tới tất cả broadcast của từng NIC.
-    /// - Khử “vọng” bằng messageId (GUID) + cache gần đây.
-    /// - Chống echo nội bộ bằng senderId (GUID theo process).
-    /// - Cho phép nhiều tiến trình bind cùng port (ReuseAddress).
-    /// Định dạng: LOBBY|senderId|messageId|tenNguoi|noiDung
-    /// </summary>
+   
     public class ChatSanhLAN : IDisposable
     {
         public const int CONG_CHAT_SANH = 9877;

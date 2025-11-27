@@ -42,9 +42,7 @@ namespace plan_fighting_super_start
                 textBoxPass.UseSystemPasswordChar = false;
             }
 
-            // Có thể set avatar default nếu muốn
-            // pictureBoxAvatar.Image = Properties.Resource.DefaultAvatar;
-            // pictureBoxAvatar.SizeMode = PictureBoxSizeMode.Zoom;
+            
         }
 
         // NÚT ĐĂNG KÝ – có async vì cần await upload ảnh
@@ -70,7 +68,7 @@ namespace plan_fighting_super_start
                 return;
             }
 
-            // 🔥 BẮT BUỘC PHẢI CHỌN ẢNH AVATAR
+            // BẮT BUỘC PHẢI CHỌN ẢNH AVATAR
             if (string.IsNullOrEmpty(_avatarFilePath))
             {
                 MessageBox.Show("Vui lòng chọn ảnh avatar trước khi đăng ký!");
@@ -113,7 +111,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // Nếu bạn muốn pictureBox1 là nút đóng form / quay lại
+        // Nếu  muốn pictureBox1 là nút đóng form / quay lại
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             // this.Close();

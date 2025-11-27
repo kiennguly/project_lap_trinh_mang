@@ -16,10 +16,7 @@ namespace plan_fighting_super_start
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        /// <summary>
-        /// Gửi log phòng lên Lambda / DynamoDB.
-        /// host hoặc guest có thể null.
-        /// </summary>
+       
         private static async Task SendAsync(string roomId, string host, string guest)
         {
             try
@@ -41,8 +38,6 @@ namespace plan_fighting_super_start
 
                 // POST /sololan hoặc /rooms tùy cấu hình route
                 await http.PostAsync($"{API_BASE}/sololan", content);
-                // Nếu route của là /rooms thì đổi lại:
-                // await http.PostAsync($"{API_BASE}/rooms", content);
             }
             catch
             {
@@ -50,15 +45,15 @@ namespace plan_fighting_super_start
             }
         }
 
-        /// <summary>
+        
         /// Host tạo phòng.
-        /// </summary>
+        
         public static Task LogHost(string roomId, string hostName)
             => SendAsync(roomId, hostName, null);
 
-        /// <summary>
+        
         /// Guest join phòng.
-        /// </summary>
+        
         public static Task LogGuest(string roomId, string guestName)
             => SendAsync(roomId, null, guestName);
     }

@@ -5,7 +5,8 @@ namespace plan_fighting_super_start
     public partial class MatchHistoryForm : Form
     {
         private readonly HttpClient _httpClient = new HttpClient();
-        private readonly string apiBaseUrl = "https://840blg9a68.execute-api.ap-southeast-1.amazonaws.com"; // URL API Gateway của bạn
+
+        private readonly string apiBaseUrl = "https://840blg9a68.execute-api.ap-southeast-1.amazonaws.com"; // URL API Gateway 
 
         public MatchHistoryForm()
         {

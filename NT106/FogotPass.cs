@@ -11,7 +11,7 @@ namespace plan_fighting_super_start
 {
     public partial class FogotPass : Form
     {
-        // ----- Cấu hình API Gateway (backend DynamoDB) -----
+        //API của backend 
         private static readonly HttpClient httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://4xt8f352xe.execute-api.ap-southeast-1.amazonaws.com/")
@@ -21,7 +21,7 @@ namespace plan_fighting_super_start
         private const string SmtpHost = "smtp.gmail.com";   // ví dụ dùng Gmail
         private const int SmtpPort = 587;
         private const string FromEmail = "minhnhat2k6hcm@gmail.com";       // email gửi
-        private const string FromPassword = "hyoo itgr rkyg osmd";  // app password / mật khẩu ứng dụng
+        private const string FromPassword = "hyoo itgr rkyg osmd"; 
 
         // ----- Biến lưu OTP hiện tại -----
         private string? _currentOtp;
@@ -55,9 +55,7 @@ namespace plan_fighting_super_start
             textBoxEmail.Enabled = false;
         }
 
-        // =========================================================
-        // 1) GỬI MÃ OTP VỀ GMAIL
-        // =========================================================
+        // GỬI MÃ OTP VỀ GMAIL
         private async void buttonSendCode_Click(object sender, EventArgs e)
         {
             string username = textBoxUser.Text.Trim();
@@ -156,9 +154,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // =========================================================
-        // 2) XÁC NHẬN OTP & ĐỔI MẬT KHẨU (update DynamoDB qua API)
-        // =========================================================
+        // XÁC NHẬN OTP & ĐỔI MẬT KHẨU (update DynamoDB qua API)
         private async void buttonConfirm_Click(object sender, EventArgs e)
         {
             string username = textBoxUser.Text.Trim();
@@ -256,17 +252,13 @@ namespace plan_fighting_super_start
             }
         }
 
-        // =========================================================
-        // 3) HỦY / ĐÓNG FORM
-        // =========================================================
+        //  HỦY / ĐÓNG FORM
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // =========================================================
-        // Helper: lấy "message" từ JSON response backend
-        // =========================================================
+        // lấy "message" từ JSON response backend
         private string ExtractMessage(string json)
         {
             if (string.IsNullOrWhiteSpace(json))

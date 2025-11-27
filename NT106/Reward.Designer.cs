@@ -62,7 +62,7 @@ namespace plan_fighting_super_start
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resource.Gemini_Generated_Image_5ka7of5ka7of5ka7;
-            BackgroundImageLayout = ImageLayout.Stretch;
+            BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(439, 261);
             Controls.Add(checkedListRewards);
             Controls.Add(btnClaimReward);

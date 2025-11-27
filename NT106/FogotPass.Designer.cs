@@ -233,7 +233,7 @@ namespace plan_fighting_super_start
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             BackgroundImage = Properties.Resource.Gemini_Generated_Image_47v10s47v10s47v1;
-            BackgroundImageLayout = ImageLayout.Stretch;
+            BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(480, 515);
             Controls.Add(buttonCancel);
             Controls.Add(buttonConfirm);

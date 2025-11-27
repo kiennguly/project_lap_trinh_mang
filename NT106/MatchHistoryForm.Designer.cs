@@ -179,8 +179,7 @@ namespace plan_fighting_super_start
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(10, 15, 30);
-            BackgroundImage = Properties.Resource.anhnenrank;
-            BackgroundImageLayout = ImageLayout.Stretch;
+            BackgroundImage = Properties.Resource.anh_form_account_user;
             ClientSize = new Size(720, 430);
             Controls.Add(btnClose);
             Controls.Add(btnRefresh);

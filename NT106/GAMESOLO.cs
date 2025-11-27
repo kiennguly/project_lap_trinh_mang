@@ -94,7 +94,7 @@ namespace plan_fighting_super_start
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        // ================== GAME OBJECTS ==================
+        // GAME OBJECTS 
 
         private void SetupGameObjects()
         {
@@ -159,7 +159,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ================== VẼ ĐẠN BẰNG CODE ==================
+        //  VẼ ĐẠN BẰNG CODE 
 
         private void InitPlayerBulletSprite()
         {
@@ -337,7 +337,7 @@ namespace plan_fighting_super_start
             _opponentBullet.BringToFront();
         }
 
-        // ================== HUD & PAUSE ==================
+        // HUD & PAUSE 
 
         private void SetupHud()
         {
@@ -437,7 +437,7 @@ namespace plan_fighting_super_start
             lblStatusGame.Text = "Đang chờ đối thủ…";
         }
 
-        // ================== ROOM STATUS (END) ==================
+        //  ROOM STATUS (END) 
 
         private void MarkRoomEnd()
         {
@@ -455,7 +455,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ================== GAME LOOP ==================
+        //  GAME LOOP 
 
         private void GameTimer_Tick(object? sender, EventArgs e)
         {
@@ -633,7 +633,7 @@ namespace plan_fighting_super_start
             catch { }
         }
 
-        // ================== SHOOT & BULLETS ==================
+        // SHOOT & BULLETS 
 
         private void FirePlayerBullet()
         {
@@ -695,7 +695,7 @@ namespace plan_fighting_super_start
             _paused = false;
             _pausePanel.Visible = false;
 
-            // 🔹 Đánh dấu phòng END khi trận kết thúc
+            // Đánh dấu phòng END khi trận kết thúc
             MarkRoomEnd();
 
             if (_isHost)
@@ -729,7 +729,7 @@ namespace plan_fighting_super_start
             catch { }
         }
 
-        // ================== EVENTS / FORM ==================
+        // EVENTS / FORM 
 
         private void AnyControl_PreviewKeyDown(object? sender, PreviewKeyDownEventArgs e)
         {
@@ -766,7 +766,7 @@ namespace plan_fighting_super_start
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (ask == DialogResult.Yes)
             {
-                // 🔹 Đánh dấu phòng END khi người chơi chủ động thoát
+                // Đánh dấu phòng END khi người chơi chủ động thoát
                 MarkRoomEnd();
 
                 try { _gameTimer?.Stop(); } catch { }
@@ -777,7 +777,7 @@ namespace plan_fighting_super_start
 
         private void Form6_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // 🔹 Phòng ngừa: nếu form bị đóng trực tiếp, vẫn đánh dấu END
+            // nếu form bị đóng trực tiếp, vẫn đánh dấu END
             MarkRoomEnd();
 
             try
@@ -793,7 +793,7 @@ namespace plan_fighting_super_start
         {
         }
 
-        // ====================== AVATAR TỪ S3 ======================
+        // AVATAR TỪ S3 
 
         private async void LoadPlayerAvatarAsync()
         {

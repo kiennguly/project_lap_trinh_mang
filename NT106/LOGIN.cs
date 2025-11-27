@@ -14,7 +14,7 @@ namespace plan_fighting_super_start
 
         private void Login_Load(object sender, EventArgs e)
         {
-            // ⚠️ Bỏ qua khi đang ở chế độ Design để tránh lỗi Designer
+           
             if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
                 return;
 
@@ -97,7 +97,7 @@ namespace plan_fighting_super_start
                 form3.Show();
                 this.Hide();
             }
-            // ❌ Không cần else — Database.CheckLogin đã hiện message lỗi cụ thể
+           
         }
 
         private void buttonRegister_Click(object sender, EventArgs e)
@@ -112,7 +112,7 @@ namespace plan_fighting_super_start
             using (var reset = new FogotPass())
             {
                 reset.StartPosition = FormStartPosition.CenterParent;
-                reset.ShowDialog(this);  // modal
+                reset.ShowDialog(this); 
             }
             this.Show();
         }

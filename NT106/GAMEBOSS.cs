@@ -196,7 +196,7 @@ namespace plan_fighting_super_start
             return bmp;
         }
 
-        // ================== Load skin máy bay ==================
+        //  Load skin máy bay 
 
         private async Task LoadPlaneSkinFromS3OrDefaultAsync()
         {
@@ -241,7 +241,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ================== Form Load ==================
+        // Form Load 
 
         private async void Form4_Load(object sender, EventArgs e)
         {
@@ -302,7 +302,7 @@ namespace plan_fighting_super_start
             return (int)hp;
         }
 
-        // ================== Vòng lặp game chính ==================
+        // Vòng lặp game chính
 
         private void mainGameTimerEvent(object sender, EventArgs e)
         {
@@ -311,7 +311,7 @@ namespace plan_fighting_super_start
             frameCounter++;
             txtScore.Text = $"Gold: {AccountData.Gold}  Time: {survivalTime}  Level: {AccountData.Level}";
 
-            // ⭐ Giảm cooldown bắn mỗi tick
+            // Giảm cooldown bắn mỗi tick
             if (playerShootCooldown > 0)
                 playerShootCooldown--;
 
@@ -364,7 +364,7 @@ namespace plan_fighting_super_start
                 }
             }
 
-            // ===== Boss bullets =====
+            //  Boss bullets 
             for (int i = _bossBullets.Count - 1; i >= 0; i--)
             {
                 var pb = _bossBullets[i];
@@ -402,7 +402,7 @@ namespace plan_fighting_super_start
                 }
             }
 
-            // ===== Explosions =====
+            // Explosions 
             for (int i = _explosions.Count - 1; i >= 0; i--)
             {
                 var pb = _explosions[i];
@@ -455,7 +455,7 @@ namespace plan_fighting_super_start
             _explosions.Clear();
         }
 
-        // ================== Tạo hiệu ứng & đạn ==================
+        //  Tạo hiệu ứng & đạn 
 
         private void CreateExplosion(int x, int y, Color color)
         {
@@ -518,7 +518,7 @@ namespace plan_fighting_super_start
             bullet.BringToFront();
         }
 
-        // ================== Survival timer ==================
+        // Survival timer 
 
         private void survivalTimer_Tick(object sender, EventArgs e)
         {
@@ -532,7 +532,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ================== Kết thúc game ==================
+        // Kết thúc game 
 
         private void EndGame(bool win)
         {
@@ -567,7 +567,7 @@ namespace plan_fighting_super_start
             buttonExit.Visible = true;
         }
 
-        // ================== Pause / Resume ==================
+        // Pause / Resume 
 
         private void PauseGame()
         {
@@ -617,7 +617,7 @@ namespace plan_fighting_super_start
             this.Close();
         }
 
-        // ================== Input & misc ==================
+        //  Input & misc 
 
         private void PlayHitSound() { }
         private void PlayLoseSound() { }
@@ -628,7 +628,7 @@ namespace plan_fighting_super_start
             if (e.KeyCode == Keys.Left) goLeft = true;
             if (e.KeyCode == Keys.Right) goRight = true;
 
-            // ⭐ Bắn đạn theo cooldown
+            //  Bắn đạn theo cooldown
             if (e.KeyCode == Keys.Space && !isPaused && !gameEnded)
             {
                 if (playerShootCooldown == 0)

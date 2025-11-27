@@ -12,7 +12,7 @@ namespace plan_fighting_super_start
         // POST /sololan  (API Gateway HTTP API -> Lambda sololan)
         private const string ROOM_API_URL =
             "https://r42i9q5tl1.execute-api.ap-southeast-1.amazonaws.com/sololan";
-        // ↑ sửa lại đúng Invoke URL / route của bạn nếu khác
+        
 
         private static readonly HttpClient client = new HttpClient();
 
@@ -21,7 +21,7 @@ namespace plan_fighting_super_start
             PropertyNameCaseInsensitive = true
         };
 
-        // ================== HÀM DÙNG CHUNG (POST JSON) ==================
+        //  HÀM DÙNG CHUNG (POST JSON)
 
         private static async Task<bool> PostAsync(object payload)
         {
@@ -39,7 +39,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ================== CÁC ACTION PHÒNG ==================
+        //  CÁC ACTION PHÒNG 
 
         // Host tạo phòng
         public static Task<bool> CreateRoomAsync(string roomId, string hostName)
@@ -104,7 +104,7 @@ namespace plan_fighting_super_start
             });
         }
 
-        // ================== LẤY DANH SÁCH PHÒNG (action = list) ==================
+        // LẤY DANH SÁCH PHÒNG (action = list) 
 
         public class RoomInfo
         {

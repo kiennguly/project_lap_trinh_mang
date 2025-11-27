@@ -10,7 +10,6 @@ namespace plan_fighting_super_start
     public partial class giftcode : Form
     {
         // URL API Gateway trỏ tới Lambda RedeemGiftcodeFunction
-        // THAY chuỗi dưới bằng URL thật của bạn
         private const string GiftcodeApiUrl =
             "https://ueg0kxfq34.execute-api.ap-southeast-1.amazonaws.com/default/RedeemGiftcodeFunction";
 
@@ -41,7 +40,7 @@ namespace plan_fighting_super_start
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            // Không cần xử lý gì cũng được
+         
         }
 
         // Nút "Đổi" / "Redeem"

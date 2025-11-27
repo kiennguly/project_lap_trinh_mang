@@ -11,13 +11,13 @@ namespace plan_fighting_super_start
 {
     public class DoiMayBayService
     {
-        // ✅ Gọi đúng path /post/plane
+
+        // API đổi máy bay
         private const string API_PLANE =
             "https://ux7ir7zqt1.execute-api.ap-southeast-1.amazonaws.com/post/plane";
 
         private static readonly HttpClient http = new HttpClient();
 
-        // Kích thước tối đa cho skin máy bay (càng nhỏ game càng mượt)
         private const int PLANE_MAX_SIZE = 96;
 
         private class PlaneResponse
@@ -27,11 +27,7 @@ namespace plan_fighting_super_start
             public string downloadUrl { get; set; }
         }
 
-        /// <summary>
-        /// Gọi API đổi máy bay.
-        /// planeIndex: 1..5 (các skin trên S3)
-        /// Trả về: (Image đã resize nhỏ, key S3)
-        /// </summary>
+       
         public async Task<(Image? Image, string? Key)> DoiMayBayAsync(int planeIndex)
         {
             var bodyObj = new { plane = planeIndex };
@@ -65,15 +61,13 @@ namespace plan_fighting_super_start
             using var ms = new MemoryStream(bytes);
             using var original = Image.FromStream(ms);
 
-            // ⭐ Resize ảnh máy bay xuống nhỏ (vd: 96x96) để game bớt lag
+            //  Resize ảnh máy bay xuống nhỏ 
             Image resized = ResizePlaneImage(original, PLANE_MAX_SIZE);
 
             return (resized, data.key);
         }
 
-        /// <summary>
-        /// Resize ảnh máy bay về kích thước tối đa PLANE_MAX_SIZE (vuông hoặc theo tỉ lệ).
-        /// </summary>
+        
         private static Image ResizePlaneImage(Image srcImage, int maxSize)
         {
             int w = srcImage.Width;
@@ -102,7 +96,7 @@ namespace plan_fighting_super_start
             return destImage;
         }
 
-        // Nếu sau này bạn muốn dùng, có thể implement thêm giống S3ImageService.GetImageAsync
+       
         internal async Task<Image?> GetImageAsync(string planeSkin)
         {
             throw new NotImplementedException();

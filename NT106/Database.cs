@@ -1,10 +1,10 @@
 using System;
-using System.Net;                     // 🔹 dùng HttpStatusCode
+using System.Net;                   
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Threading.Tasks;         // 🔹 dùng async/await
+using System.Threading.Tasks;         
 using System.Text;
 using System.Text.Json;
 
@@ -26,7 +26,6 @@ namespace plan_fighting_super_start
         public bool RewardLv50Claimed { get; set; }
         public bool RewardLv100Claimed { get; set; }
 
-        // nếu backend trả Online thì deserialize luôn cũng được
         public bool Online { get; set; }
     }
 
@@ -41,10 +40,10 @@ namespace plan_fighting_super_start
 
     public static class Database
     {
-        // URL API Gateway 
+        // URL API của account
         private static readonly string ApiBaseUrl =
             "https://4xt8f352xe.execute-api.ap-southeast-1.amazonaws.com/";
-        // Base dành riêng cho MatchHistory
+        // URL API của lịch sử đấu
         private static readonly string MatchApiBaseUrl =
             "https://840blg9a68.execute-api.ap-southeast-1.amazonaws.com/";
 
@@ -56,9 +55,7 @@ namespace plan_fighting_super_start
             PropertyNameCaseInsensitive = true
         };
 
-        // ==============================
-        // 1️⃣ ĐĂNG NHẬP
-        // ==============================
+        //  ĐĂNG NHẬP
         public static bool CheckLogin(string username, string password)
         {
             try
@@ -85,10 +82,10 @@ namespace plan_fighting_super_start
                     }
                     catch
                     {
-                        // Nếu body không phải JSON, dùng raw luôn
+                        // Nếu body không phải JSON, dùng raw 
                     }
 
-                    if (response.StatusCode == HttpStatusCode.Conflict) // 409 - đang online nơi khác
+                    if (response.StatusCode == HttpStatusCode.Conflict) // đang online nơi khác
                     {
                         MessageBox.Show(
                             userMsg,
@@ -114,8 +111,8 @@ namespace plan_fighting_super_start
                 if (account != null)
                 {
                     AccountData.Username = account.Username;
-                    AccountData.Password = password;      // lưu pass người dùng nhập
-                    AccountData.Email = account.Email;    // lưu Email
+                    AccountData.Password = password;     
+                    AccountData.Email = account.Email;    
 
                     AccountData.Gold = account.Gold;
                     AccountData.UpgradeHP = account.UpgradeHP;
@@ -138,9 +135,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 2️⃣ LOAD ACCOUNT THEO USERNAME
-        // ==============================
+        // LOAD ACCOUNT THEO USERNAME
         public static bool LoadAccountData(string username)
         {
             try
@@ -184,9 +179,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 3️⃣ ĐĂNG KÝ (CÓ EMAIL)
-        // ==============================
+        //  ĐĂNG KÝ (CÓ EMAIL)
         public static bool RegisterAccount(string username, string password, string email)
         {
             try
@@ -224,9 +217,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 4️⃣ CẬP NHẬT ACCOUNT (VÀNG, LV…)
-        // ==============================
+        // CẬP NHẬT ACCOUNT (VÀNG, LV…)
         public static void UpdateAccountData()
         {
             try
@@ -277,9 +268,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 5️⃣ QUÊN MẬT KHẨU – GỬI MÃ
-        // ==============================
+        //  QUÊN MẬT KHẨU – GỬI MÃ
         public static bool RequestResetCode(string username, string email)
         {
             try
@@ -321,9 +310,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 6️⃣ QUÊN MẬT KHẨU – XÁC NHẬN MÃ + ĐỔI MẬT KHẨU
-        // ==============================
+        //  QUÊN MẬT KHẨU – XÁC NHẬN MÃ + ĐỔI MẬT KHẨU
         public static bool ConfirmResetPassword(string username, string email, string code, string newPassword)
         {
             try
@@ -367,9 +354,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 7️⃣ ĐỔI MẬT KHẨU TRỰC TIẾP (ĐANG ĐĂNG NHẬP)
-        // ==============================
+        //  ĐỔI MẬT KHẨU TRỰC TIẾP (ĐANG ĐĂNG NHẬP)
         public static bool ChangePassword(string username, string newPassword)
         {
             try
@@ -411,9 +396,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 8️⃣ LƯU LỊCH SỬ ĐẤU
-        // ==============================
+        //  LƯU LỊCH SỬ ĐẤU
         public static void RecordMatchHistory(string winnerUsername, string loserUsername)
         {
             try
@@ -446,9 +429,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 9️⃣ LẤY LỊCH SỬ ĐẤU
-        // ==============================
+        //  LẤY LỊCH SỬ ĐẤU
         public static List<ClientMatchHistoryModel> GetMatchHistory(string? username)
         {
             if (string.IsNullOrEmpty(username))
@@ -490,9 +471,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // ==============================
-        // 🔟 SET ONLINE / OFFLINE
-        // ==============================
+        // SET ONLINE / OFFLINE
         public static async Task<bool> SetOnlineStatusAsync(string username, bool online)
         {
             if (string.IsNullOrEmpty(username))

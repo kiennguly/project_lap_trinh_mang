@@ -34,9 +34,7 @@ def create_response(statusCode, body):
         "body": json.dumps(body, cls=DecimalEncoder)
     }
 
-# ============================
 # Email mã reset
-# ============================
 def send_reset_code_email(email, username, code):
     subject = "Mã đặt lại mật khẩu - Plane Fighting Super Start"
     message = (
@@ -47,9 +45,7 @@ def send_reset_code_email(email, username, code):
     )
     sns.publish(TopicArn=SNS_TOPIC_ARN, Subject=subject, Message=message)
 
-# ============================
 # 1) Đăng ký
-# ============================
 def handle_register(body):
     username = body.get("Username", "").strip()
     password = body.get("Password", "").strip()
@@ -87,9 +83,7 @@ def handle_register(body):
         print("Lỗi ghi DynamoDB:", e)
         return create_response(500, {"message": "Lỗi hệ thống khi đăng ký"})
 
-# ============================
 # 2) Đăng nhập
-# ============================
 def handle_login(body):
     username = body.get("Username", "").strip()
     password = body.get("Password", "").strip()
@@ -133,9 +127,7 @@ def handle_login(body):
 
     return create_response(200, acc)
 
-# ============================
 # 3) Cập nhật account
-# ============================
 def handle_update_account(body):
     username = body.get("Username", "").strip()
     if not username:
@@ -179,9 +171,7 @@ def handle_update_account(body):
         print("Lỗi update account:", e)
         return create_response(500, {"message": "Lỗi hệ thống khi cập nhật"})
 
-# ============================
 # 4) Lịch sử đấu (ghi)
-# ============================
 def handle_record_match(body):
     winner = body.get("WinnerUsername", "").strip()
     loser  = body.get("LoserUsername", "").strip()
@@ -205,9 +195,7 @@ def handle_record_match(body):
         print("Lỗi ghi MatchHistory:", e)
         return create_response(500, {"message": "Lỗi hệ thống khi ghi lịch sử"})
 
-# ============================
 # 5) Lịch sử đấu (lấy)
-# ============================
 def handle_get_match_history(username):
     username = (username or "").strip()
     if not username:
@@ -250,9 +238,7 @@ def handle_get_match_history(username):
         print("Lỗi lấy lịch sử:", e)
         return create_response(500, {"message": "Lỗi hệ thống khi lấy lịch sử"})
 
-# ============================
 # 6) Quên mật khẩu – gửi mã
-# ============================
 def handle_request_reset(body):
     username = body.get("Username", "").strip()
     email = body.get("Email", "").strip()
@@ -281,9 +267,7 @@ def handle_request_reset(body):
     except:
         return create_response(500, {"message": "Lỗi hệ thống khi gửi mã"})
 
-# ============================
 # 7) Quên mật khẩu – xác nhận
-# ============================
 def handle_confirm_reset(body):
     username = body.get("Username", "").strip()
     email = body.get("Email", "").strip()
@@ -317,9 +301,7 @@ def handle_confirm_reset(body):
     except:
         return create_response(500, {"message": "Lỗi khi đổi mật khẩu"})
 
-# ============================
 # 8) Đổi mật khẩu trực tiếp
-# ============================
 def handle_change_password(body):
     username = body.get("Username", "").strip()
     new_password = body.get("NewPassword", "").strip()
@@ -340,9 +322,7 @@ def handle_change_password(body):
     except:
         return create_response(500, {"message": "Lỗi khi đổi mật khẩu"})
 
-# ============================
 # 9) Cập nhật trạng thái Online / Offline
-# ============================
 def handle_set_online_status(body):
     username = body.get("Username", "").strip()
     online = bool(body.get("Online", False))
@@ -363,9 +343,7 @@ def handle_set_online_status(body):
         print("Lỗi update Online:", e)
         return create_response(500, {"message": "Lỗi hệ thống khi cập nhật Online"})
 
-# ============================
 # Entry point
-# ============================
 def lambda_handler(event, context):
     http = (event.get("requestContext") or {}).get("http", {}) or {}
     method = http.get("method", "")

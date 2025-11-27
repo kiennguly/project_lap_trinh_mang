@@ -12,6 +12,7 @@ namespace plan_fighting_super_start
         private Button btnCreateRoom;
         private Button btnJoinRoom;
         private Button btnStartGame;
+        private Button btnLeaveRoom;
         private Label lblStatus;
 
         private Label label1;
@@ -23,10 +24,14 @@ namespace plan_fighting_super_start
         private Button button1;
         private Button button2;
 
-        // 🔹 Chat controls
+        // Chat controls
         private RichTextBox chatBox;
         private TextBox txtChat;
         private Button btnSendChat;
+
+        // Channel controls
+        private Label lblKenh;
+        private ComboBox cmbKenh;
 
         protected override void Dispose(bool disposing)
         {
@@ -46,6 +51,7 @@ namespace plan_fighting_super_start
             btnCreateRoom = new Button();
             btnJoinRoom = new Button();
             btnStartGame = new Button();
+            btnLeaveRoom = new Button();
             lblStatus = new Label();
             label1 = new Label();
             IdRoom = new DataGridView();
@@ -55,6 +61,8 @@ namespace plan_fighting_super_start
             button1 = new Button();
             button2 = new Button();
             chatBox = new RichTextBox();
+            lblKenh = new Label();
+            cmbKenh = new ComboBox();
             txtChat = new TextBox();
             btnSendChat = new Button();
             ((System.ComponentModel.ISupportInitialize)IdRoom).BeginInit();
@@ -125,7 +133,7 @@ namespace plan_fighting_super_start
             btnJoinRoom.FlatStyle = FlatStyle.Flat;
             btnJoinRoom.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnJoinRoom.ForeColor = Color.FromArgb(0, 192, 192);
-            btnJoinRoom.Location = new Point(36, 215);
+            btnJoinRoom.Location = new Point(36, 208);
             btnJoinRoom.Margin = new Padding(3, 4, 3, 4);
             btnJoinRoom.Name = "btnJoinRoom";
             btnJoinRoom.Size = new Size(290, 45);
@@ -144,7 +152,7 @@ namespace plan_fighting_super_start
             btnStartGame.FlatStyle = FlatStyle.Flat;
             btnStartGame.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnStartGame.ForeColor = Color.FromArgb(0, 255, 255);
-            btnStartGame.Location = new Point(36, 275);
+            btnStartGame.Location = new Point(36, 261);
             btnStartGame.Margin = new Padding(3, 4, 3, 4);
             btnStartGame.Name = "btnStartGame";
             btnStartGame.Size = new Size(290, 50);
@@ -152,6 +160,25 @@ namespace plan_fighting_super_start
             btnStartGame.Text = "BẮT ĐẦU";
             btnStartGame.UseVisualStyleBackColor = false;
             btnStartGame.Click += btnStartGame_Click;
+            // 
+            // btnLeaveRoom
+            // 
+            btnLeaveRoom.BackColor = Color.FromArgb(10, 20, 40);
+            btnLeaveRoom.Enabled = false;
+            btnLeaveRoom.FlatAppearance.BorderColor = Color.FromArgb(192, 64, 64);
+            btnLeaveRoom.FlatAppearance.MouseDownBackColor = Color.FromArgb(160, 40, 40);
+            btnLeaveRoom.FlatAppearance.MouseOverBackColor = Color.FromArgb(120, 30, 30);
+            btnLeaveRoom.FlatStyle = FlatStyle.Flat;
+            btnLeaveRoom.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            btnLeaveRoom.ForeColor = Color.FromArgb(255, 128, 128);
+            btnLeaveRoom.Location = new Point(772, 532);
+            btnLeaveRoom.Margin = new Padding(3, 4, 3, 4);
+            btnLeaveRoom.Name = "btnLeaveRoom";
+            btnLeaveRoom.Size = new Size(290, 45);
+            btnLeaveRoom.TabIndex = 5;
+            btnLeaveRoom.Text = "Thoát phòng";
+            btnLeaveRoom.UseVisualStyleBackColor = false;
+            btnLeaveRoom.Click += btnLeaveRoom_Click;
             // 
             // lblStatus
             // 
@@ -250,7 +277,7 @@ namespace plan_fighting_super_start
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
             button1.ForeColor = Color.FromArgb(0, 192, 192);
-            button1.Location = new Point(36, 348);
+            button1.Location = new Point(36, 318);
             button1.Name = "button1";
             button1.Size = new Size(290, 49);
             button1.TabIndex = 10;
@@ -263,9 +290,9 @@ namespace plan_fighting_super_start
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
             button2.ForeColor = Color.FromArgb(0, 192, 192);
-            button2.Location = new Point(908, 527);
+            button2.Location = new Point(834, 86);
             button2.Name = "button2";
-            button2.Size = new Size(149, 54);
+            button2.Size = new Size(158, 40);
             button2.TabIndex = 11;
             button2.Text = "Load Data Room";
             button2.UseVisualStyleBackColor = true;
@@ -273,36 +300,64 @@ namespace plan_fighting_super_start
             // 
             // chatBox
             // 
+            chatBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             chatBox.BackColor = Color.FromArgb(10, 15, 35);
             chatBox.BorderStyle = BorderStyle.FixedSingle;
-            chatBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            chatBox.ForeColor = Color.FromArgb(0, 255, 255);
+            chatBox.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            chatBox.ForeColor = Color.White;
             chatBox.Location = new Point(36, 470);
             chatBox.Name = "chatBox";
             chatBox.ReadOnly = true;
-            chatBox.Size = new Size(424, 70);
+            chatBox.Size = new Size(470, 70);
             chatBox.TabIndex = 12;
             chatBox.Text = "";
             chatBox.TextChanged += chatBox_TextChanged;
             // 
+            // lblKenh
+            // 
+            lblKenh.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblKenh.AutoSize = true;
+            lblKenh.BackColor = Color.FromArgb(90, 0, 0, 0);
+            lblKenh.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            lblKenh.ForeColor = Color.FromArgb(0, 255, 255);
+            lblKenh.Location = new Point(36, 546);
+            lblKenh.Name = "lblKenh";
+            lblKenh.Size = new Size(49, 21);
+            lblKenh.TabIndex = 15;
+            lblKenh.Text = "Kênh";
+            // 
+            // cmbKenh
+            // 
+            cmbKenh.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            cmbKenh.BackColor = Color.FromArgb(15, 22, 45);
+            cmbKenh.FlatStyle = FlatStyle.Flat;
+            cmbKenh.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            cmbKenh.ForeColor = Color.FromArgb(210, 235, 255);
+            cmbKenh.Location = new Point(90, 542);
+            cmbKenh.Name = "cmbKenh";
+            cmbKenh.Size = new Size(180, 28);
+            cmbKenh.TabIndex = 16;
+            // 
             // txtChat
             // 
-            txtChat.BackColor = Color.FromArgb(15, 22, 45);
+            txtChat.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            txtChat.BackColor = Color.FromArgb(18, 24, 48);
             txtChat.BorderStyle = BorderStyle.FixedSingle;
-            txtChat.Font = new Font("Segoe UI", 9F);
-            txtChat.ForeColor = Color.White;
-            txtChat.Location = new Point(36, 545);
+            txtChat.Font = new Font("Segoe UI", 9.5F);
+            txtChat.ForeColor = Color.FromArgb(225, 235, 255);
+            txtChat.Location = new Point(280, 543);
             txtChat.Name = "txtChat";
-            txtChat.Size = new Size(340, 27);
+            txtChat.Size = new Size(226, 29);
             txtChat.TabIndex = 13;
             txtChat.TextChanged += txtChat_TextChanged;
             // 
             // btnSendChat
             // 
+            btnSendChat.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             btnSendChat.FlatStyle = FlatStyle.Flat;
             btnSendChat.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
             btnSendChat.ForeColor = Color.FromArgb(0, 192, 192);
-            btnSendChat.Location = new Point(385, 543);
+            btnSendChat.Location = new Point(514, 540);
             btnSendChat.Name = "btnSendChat";
             btnSendChat.Size = new Size(75, 30);
             btnSendChat.TabIndex = 14;
@@ -318,14 +373,17 @@ namespace plan_fighting_super_start
             BackgroundImage = Properties.Resource.Gemini_Generated_Image_5ka7of5ka7of5ka7;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1084, 593);
-            Controls.Add(btnSendChat);
-            Controls.Add(txtChat);
             Controls.Add(chatBox);
+            Controls.Add(lblKenh);
+            Controls.Add(cmbKenh);
+            Controls.Add(txtChat);
+            Controls.Add(btnSendChat);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(IdRoom);
             Controls.Add(label1);
             Controls.Add(lblStatus);
+            Controls.Add(btnLeaveRoom);
             Controls.Add(btnStartGame);
             Controls.Add(btnJoinRoom);
             Controls.Add(btnCreateRoom);
