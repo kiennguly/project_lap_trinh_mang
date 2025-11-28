@@ -93,17 +93,37 @@ namespace plan_fighting_super_start
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // 1) Tạo form Menu
                 Menu form3 = new Menu();
-                form3.Show();
+
+                // 2) Khi Menu đóng -> hiện lại Login
+                form3.FormClosed += (s, args) =>
+                {
+                    this.Show();   // hiện lại form Login
+                };
+
+                // 3) Ẩn Login và show Menu
                 this.Hide();
+                form3.Show();
             }
-           
+            else
+            {
+                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void buttonRegister_Click(object sender, EventArgs e)
         {
-            Register form2 = new Register();
-            form2.ShowDialog();
+            this.Hide();
+
+            using (Register reg = new Register())
+            {
+                reg.ShowDialog();
+            }
+
+            this.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)

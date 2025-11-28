@@ -1,12 +1,12 @@
 using System;
-using System.Net;                   
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Threading.Tasks;         
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace plan_fighting_super_start
 {
@@ -43,9 +43,14 @@ namespace plan_fighting_super_start
         // URL API của account
         private static readonly string ApiBaseUrl =
             "https://4xt8f352xe.execute-api.ap-southeast-1.amazonaws.com/";
+
         // URL API của lịch sử đấu
         private static readonly string MatchApiBaseUrl =
             "https://840blg9a68.execute-api.ap-southeast-1.amazonaws.com/";
+
+        // URL API của Friend
+        private static readonly string FriendApiBaseUrl =
+            "https://sotv808c91.execute-api.ap-southeast-1.amazonaws.com/";
 
         private static readonly HttpClient client = new HttpClient();
 
@@ -54,6 +59,10 @@ namespace plan_fighting_super_start
             PropertyNamingPolicy = null,
             PropertyNameCaseInsensitive = true
         };
+
+        // =========================================================
+        //                    ACCOUNT / LOGIN
+        // =========================================================
 
         //  ĐĂNG NHẬP
         public static bool CheckLogin(string username, string password)
@@ -111,8 +120,8 @@ namespace plan_fighting_super_start
                 if (account != null)
                 {
                     AccountData.Username = account.Username;
-                    AccountData.Password = password;     
-                    AccountData.Email = account.Email;    
+                    AccountData.Password = password;
+                    AccountData.Email = account.Email;
 
                     AccountData.Gold = account.Gold;
                     AccountData.UpgradeHP = account.UpgradeHP;
@@ -268,6 +277,10 @@ namespace plan_fighting_super_start
             }
         }
 
+        // =========================================================
+        //                    QUÊN / ĐỔI MẬT KHẨU
+        // =========================================================
+
         //  QUÊN MẬT KHẨU – GỬI MÃ
         public static bool RequestResetCode(string username, string email)
         {
@@ -396,6 +409,10 @@ namespace plan_fighting_super_start
             }
         }
 
+        // =========================================================
+        //                    MATCH HISTORY
+        // =========================================================
+
         //  LƯU LỊCH SỬ ĐẤU
         public static void RecordMatchHistory(string winnerUsername, string loserUsername)
         {
@@ -443,7 +460,7 @@ namespace plan_fighting_super_start
             {
                 var response = client.GetAsync(MatchApiBaseUrl + "matchhistory/" + username).Result;
 
-                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                if (response.StatusCode == HttpStatusCode.NotFound)
                     return new List<ClientMatchHistoryModel>();
 
                 if (!response.IsSuccessStatusCode)
@@ -470,6 +487,10 @@ namespace plan_fighting_super_start
                 return new List<ClientMatchHistoryModel>();
             }
         }
+
+        // =========================================================
+        //                    ONLINE / OFFLINE
+        // =========================================================
 
         // SET ONLINE / OFFLINE
         public static async Task<bool> SetOnlineStatusAsync(string username, bool online)
@@ -498,5 +519,172 @@ namespace plan_fighting_super_start
                 return false;
             }
         }
+
+        // =========================================================
+        //                    FRIEND API
+        // =========================================================
+
+        public static async Task<List<FriendEntry>> GetFriendListAsync(string username)
+        {
+            var result = new List<FriendEntry>();
+
+            try
+            {
+                var url = FriendApiBaseUrl + "friend/list/" + username;
+                var resp = await client.GetAsync(url);
+                var text = await resp.Content.ReadAsStringAsync();
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    MessageBox.Show(
+                        $"Tải danh sách bạn bè thất bại.\nStatus: {resp.StatusCode}\nBody: {text}",
+                        "Friend", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return result;
+                }
+
+                using var doc = JsonDocument.Parse(text);
+
+                if (!doc.RootElement.TryGetProperty("friends", out var friendsJson) ||
+                    friendsJson.ValueKind != JsonValueKind.Array)
+                {
+                    return result;
+                }
+
+                foreach (var f in friendsJson.EnumerateArray())
+                {
+                    var entry = new FriendEntry();
+
+                    if (f.TryGetProperty("Username", out var u))
+                        entry.Username = u.GetString() ?? "";
+
+                    if (f.TryGetProperty("Status", out var s))
+                        entry.Status = s.GetString() ?? "";
+
+                    if (f.TryGetProperty("AvatarKey", out var k))
+                        entry.AvatarKey = k.GetString() ?? "";
+
+                    result.Add(entry);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải danh sách bạn bè: " + ex.Message,
+                    "Friend", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return result;
+        }
+
+        public static async Task<bool> SendFriendRequestAsync(string fromUsername, string toUsername)
+        {
+            try
+            {
+                var body = new
+                {
+                    fromUsername,
+                    toUsername
+                };
+
+                string jsonBody = JsonSerializer.Serialize(body, JsonOptions);
+                var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+                var resp = await client.PostAsync(FriendApiBaseUrl + "friend/send", content);
+                var text = await resp.Content.ReadAsStringAsync();
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Gửi lời mời kết bạn thất bại:\n" + text,
+                        "Friend", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi gửi lời mời kết bạn: " + ex.Message,
+                    "Friend", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        public static async Task<bool> RespondFriendRequestAsync(string fromUsername, string toUsername, bool accept)
+        {
+            try
+            {
+                var body = new
+                {
+                    fromUsername,
+                    toUsername,
+                    accept
+                };
+
+                string jsonBody = JsonSerializer.Serialize(body, JsonOptions);
+                var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+                var resp = await client.PostAsync(FriendApiBaseUrl + "friend/respond", content);
+                var text = await resp.Content.ReadAsStringAsync();
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Phản hồi lời mời kết bạn thất bại:\n" + text,
+                        "Friend", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi phản hồi lời mời kết bạn: " + ex.Message,
+                    "Friend", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+        // KIỂM TRA TÀI KHOẢN CÓ TỒN TẠI KHÔNG (dùng khi kết bạn)
+        public static async Task<bool> CheckAccountExistsAsync(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                return false;
+
+            try
+            {
+                var resp = await client.GetAsync(ApiBaseUrl + "account/" + username);
+                var body = await resp.Content.ReadAsStringAsync();
+
+                if (resp.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // Username không tồn tại
+                    return false;
+                }
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    // Lỗi khác (API hỏng, mạng, v.v.)
+                    MessageBox.Show(
+                        $"Không kiểm tra được tài khoản \"{username}\".\n" +
+                        $"Status: {resp.StatusCode}\nBody: {body}",
+                        "Friend",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    return false;
+                }
+
+                // 200 OK → tài khoản tồn tại
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Lỗi kết nối khi kiểm tra tài khoản: " + ex.Message,
+                    "Friend",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return false;
+            }
+        }
+
     }
 }

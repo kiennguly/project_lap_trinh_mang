@@ -59,6 +59,7 @@ namespace plan_fighting_super_start
             pictureBoxAvatar = new PictureBox();
             pictureBoxPlane = new PictureBox();
             buttonDoiMayBay = new Button();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAvatar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlane).BeginInit();
             SuspendLayout();
@@ -242,7 +243,7 @@ namespace plan_fighting_super_start
             // 
             pictureBoxAvatar.BackColor = Color.FromArgb(15, 22, 45);
             pictureBoxAvatar.BorderStyle = BorderStyle.FixedSingle;
-            pictureBoxAvatar.Location = new Point(160, 70);
+            pictureBoxAvatar.Location = new Point(160, 82);
             pictureBoxAvatar.Name = "pictureBoxAvatar";
             pictureBoxAvatar.Size = new Size(110, 100);
             pictureBoxAvatar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -253,7 +254,7 @@ namespace plan_fighting_super_start
             // 
             pictureBoxPlane.BackColor = Color.FromArgb(15, 22, 45);
             pictureBoxPlane.BorderStyle = BorderStyle.FixedSingle;
-            pictureBoxPlane.Location = new Point(360, 70);
+            pictureBoxPlane.Location = new Point(360, 82);
             pictureBoxPlane.Name = "pictureBoxPlane";
             pictureBoxPlane.Size = new Size(170, 100);
             pictureBoxPlane.SizeMode = PictureBoxSizeMode.Zoom;
@@ -271,6 +272,17 @@ namespace plan_fighting_super_start
             buttonDoiMayBay.UseVisualStyleBackColor = true;
             buttonDoiMayBay.Click += buttonDoiMayBay_Click;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            label5.ForeColor = Color.FromArgb(0, 192, 192);
+            label5.Location = new Point(415, 59);
+            label5.Name = "label5";
+            label5.Size = new Size(68, 20);
+            label5.TabIndex = 21;
+            label5.Text = "Máy bay";
+            // 
             // Menu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -279,6 +291,7 @@ namespace plan_fighting_super_start
             BackgroundImage = Properties.Resource.Gemini_Generated_Image_dy9x6hdy9x6hdy9x;
             BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(684, 680);
+            Controls.Add(label5);
             Controls.Add(buttonDoiMayBay);
             Controls.Add(pictureBoxPlane);
             Controls.Add(pictureBoxAvatar);
@@ -311,5 +324,6 @@ namespace plan_fighting_super_start
             ResumeLayout(false);
             PerformLayout();
         }
+        private Label label5;
     }
 }

@@ -195,13 +195,34 @@ namespace plan_fighting_super_start
         {
             try
             {
-                using var form = new GAMEBOSS(pictureBoxPlane.Image);
-                form.ShowDialog(this);
+                if (pictureBoxPlane.Image == null)
+                {
+                    MessageBox.Show("Chưa chọn máy bay!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Ẩn Menu
+                this.Hide();
+
+                // Mở form GAMEBOSS dạng modal
+                using (var form = new GAMEBOSS(pictureBoxPlane.Image))
+                {
+                    form.ShowDialog();   // không cần truyền this
+                }
+
+                // Hiện lại Menu sau khi game đóng
+                this.Show();
+
                 // Sau khi chơi xong reload lại từ server nếu logic game có cập nhật vàng/lv
                 ReloadAccountFromServer();
             }
-            catch (Exception ex) { MessageBox.Show("Không mở được chế độ chơi: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không mở được chế độ chơi: " + ex.Message);
+            }
         }
+
 
         private void buttonUpgradeHP_Click(object sender, EventArgs e)
         {
@@ -246,11 +267,42 @@ namespace plan_fighting_super_start
             Application.Exit();
         }
 
-        private void button1_Click(object sender, EventArgs e) => new Room().Show();
-        private void button2_Click(object sender, EventArgs e) => new Rank().Show();
-        private void button3_Click(object sender, EventArgs e) => new ChangePass().Show();
-        private void button4_Click(object sender, EventArgs e) => new Reward().Show();
-        private void button5_Click(object sender, EventArgs e) => new Accountuser().Show();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (Room gc = new Room())
+            {
+                gc.ShowDialog();
+            }
+            this.Show();
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (Rank gc = new Rank())
+            {
+                gc.ShowDialog();
+            }
+            this.Show();
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (Reward gc = new Reward())
+            {
+                gc.ShowDialog();
+            }
+            this.Show();
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (Accountuser gc = new Accountuser())
+            {
+                gc.ShowDialog();
+            }
+            this.Show();
+        }
 
         private async void buttonDoiMayBay_Click(object sender, EventArgs e)
         {

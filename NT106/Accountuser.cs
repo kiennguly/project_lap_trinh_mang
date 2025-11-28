@@ -121,9 +121,40 @@ namespace plan_fighting_super_start
             this.Close();
         }
 
-        private void button3_Click(object sender, EventArgs e) => new ChangePass().Show();
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();   // 1) Ẩn account user
 
-        private void button1_Click(object sender, EventArgs e) => new giftcode().Show();
+            using (var form = new ChangePass())
+            {
+                form.ShowDialog();   // 2) Mở form ChangePass dạng modal
+            }
 
+            this.Show();   // 3) Khi ChangePass đóng → hiện lại account user
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();   // 1) Ẩn account user
+
+            using (var form = new giftcode())
+            {
+                form.ShowDialog();   // 2) Mở giftcode dạng dialog
+            }
+
+            this.Show();   // 3) Khi giftcode đóng → hiện lại account user
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (var form = new Friend())
+            {
+                form.ShowDialog();
+            }
+            this.Show();
+
+        }
     }
 }
