@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace plan_fighting_super_start
@@ -56,19 +57,14 @@ namespace plan_fighting_super_start
         private bool _opponentConnected = false;
         private bool _gameStarted = false;
 
-        public GAMESOLO()
-            : this(new NetworkManager(), true, "SOLO-" + Guid.NewGuid().ToString("N")[..6]) { }
-
-        public GAMESOLO(NetworkManager network)
-            : this(network, true, "SOLO-" + Guid.NewGuid().ToString("N")[..6]) { }
+        // ================== CONSTRUCTOR ==================
 
         public GAMESOLO(NetworkManager network, bool isHost, string roomId)
         {
             InitializeComponent();
 
-            this.ActiveControl = null;
-
-            _network = network ?? new NetworkManager();
+            // DÙNG ĐÚNG NetworkManager TỪ ROOM, KHÔNG TẠO MỚI
+            _network = network ?? throw new ArgumentNullException(nameof(network));
             _isHost = isHost;
             _roomId = string.IsNullOrWhiteSpace(roomId) ? "SOLO" : roomId;
 
@@ -87,9 +83,8 @@ namespace plan_fighting_super_start
             SetupTimer();
             WireNetworkEvents();
 
-            // Nếu sau này muốn dùng avatar để ở góc, có thể bật lại:
-            // LoadPlayerAvatarAsync();
         }
+
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -106,7 +101,7 @@ namespace plan_fighting_super_start
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        // ================== GAME OBJECTS ==================
+        // ================== SETUP GAME OBJECTS ==================
 
         private void SetupGameObjects()
         {
@@ -137,8 +132,6 @@ namespace plan_fighting_super_start
             _player = new PictureBox { Width = ship, Height = ship, BackColor = Color.Transparent };
             _opponent = new PictureBox { Width = ship, Height = ship, BackColor = Color.Transparent };
 
-
-
             Image hostPlane = null, clientPlane = null;
 
             try
@@ -158,11 +151,11 @@ namespace plan_fighting_super_start
             }
             catch { }
 
-            // ✓ ÉP trong suốt cho nền ảnh
+            // ✓ ÉP trong suốt cho nền ảnh (ví dụ nền trắng)
             if (hostPlane != null)
             {
                 Bitmap b = new Bitmap(hostPlane);
-                b.MakeTransparent(Color.White);   // đổi White thành màu nền bạn muốn xóa
+                b.MakeTransparent(Color.White);
                 hostPlane = b;
             }
 
@@ -172,10 +165,6 @@ namespace plan_fighting_super_start
                 b.MakeTransparent(Color.White);
                 clientPlane = b;
             }
-
-
-
-
 
             // Nếu không tìm thấy file, fallback plain màu
             if (hostPlane == null)
@@ -226,11 +215,11 @@ namespace plan_fighting_super_start
                 _opponent.Top = h - ship - 70;
                 _opponent.Image = hostUp;
             }
+
             _player.BackColor = Color.Transparent;
             _opponent.BackColor = Color.Transparent;
             _player.SizeMode = PictureBoxSizeMode.StretchImage;
             _opponent.SizeMode = PictureBoxSizeMode.StretchImage;
-
 
             Controls.Add(_player);
             Controls.Add(_opponent);
@@ -260,12 +249,12 @@ namespace plan_fighting_super_start
             // Host bắn lên, client bắn xuống
             if (_isHost)
             {
-                _playerBulletDir = -1; // host ở dưới -> bắn lên
+                _playerBulletDir = -1;   // host ở dưới -> bắn lên
                 _opponentBulletDir = +1; // client ở trên -> bắn xuống
             }
             else
             {
-                _playerBulletDir = +1; // client ở trên -> bắn xuống
+                _playerBulletDir = +1;   // client ở trên -> bắn xuống
                 _opponentBulletDir = -1; // host ở dưới -> bắn lên
             }
         }
@@ -276,7 +265,7 @@ namespace plan_fighting_super_start
         {
             _playerBullet = new PictureBox
             {
-                Size = new Size(22, 72),   // to hơn
+                Size = new Size(22, 72),
                 BackColor = Color.Transparent,
                 Visible = false
             };
@@ -452,7 +441,6 @@ namespace plan_fighting_super_start
 
         private void SetupHud()
         {
-            // Label tên
             _hudYou = new Label
             {
                 AutoSize = true,
@@ -504,18 +492,17 @@ namespace plan_fighting_super_start
             };
             _hpEnemyBg.Controls.Add(_hpEnemyFill);
 
-            // Vị trí HUD: phụ thuộc bạn là host hay client
-            int gap = 6; // khoảng cách giữa tên và thanh máu
+            int gap = 6;
 
             if (_isHost)
             {
-                // YOU: góc dưới trái
+                // YOU (host) ở dưới
                 _hudYou.Left = 10;
                 _hudYou.Top = ClientSize.Height - 60;
                 _hpYouBg.Left = 10;
                 _hpYouBg.Top = _hudYou.Bottom + gap;
 
-                // ENEMY: góc trên trái
+                // ENEMY (client) ở trên
                 _hudEnemy.Left = 10;
                 _hudEnemy.Top = 10;
                 _hpEnemyBg.Left = 10;
@@ -523,13 +510,13 @@ namespace plan_fighting_super_start
             }
             else
             {
-                // Client (YOU) ở trên
+                // YOU (client) ở trên
                 _hudYou.Left = 10;
                 _hudYou.Top = 10;
                 _hpYouBg.Left = 10;
                 _hpYouBg.Top = _hudYou.Bottom + gap;
 
-                // Host (ENEMY) ở dưới
+                // ENEMY (host) ở dưới
                 _hudEnemy.Left = 10;
                 _hudEnemy.Top = ClientSize.Height - 60;
                 _hpEnemyBg.Left = 10;
@@ -616,6 +603,8 @@ namespace plan_fighting_super_start
             _gameTimer.Start();
         }
 
+        // ================== NETWORK WIRING ==================
+
         private void WireNetworkEvents()
         {
             if (_network == null) return;
@@ -634,8 +623,149 @@ namespace plan_fighting_super_start
                 else OnDisconnectedUI();
             };
 
+            // Gửi chào để 2 bên biết tên nhau
             SafeSend(new { type = "hello", name = _localName });
             lblStatusGame.Text = "Đang chờ đối thủ…";
+        }
+
+        private void ProcessNetworkMessage(string msg)
+        {
+            if (string.IsNullOrWhiteSpace(msg)) return;
+            if (msg == "START_GAME") return; // START_GAME xử lý ở Room, không cần trong đây
+
+            try
+            {
+                using var doc = JsonDocument.Parse(msg);
+                var root = doc.RootElement;
+                if (!root.TryGetProperty("type", out var tp)) return;
+                string type = tp.GetString();
+
+                switch (type)
+                {
+                    case "hello":
+                        if (root.TryGetProperty("name", out var n))
+                        {
+                            _opponentConnected = true;
+
+                            _opponentName = n.GetString() ?? _opponentName;
+                            this.Text = (_isHost ? "[HOST] " : "[CLIENT] ") +
+                                        "Room: " + _roomId + "  - vs " + _opponentName;
+                            lblStatusGame.Text = "Đã kết nối với " + _opponentName;
+                            SafeSend(new { type = "hello", name = _localName });
+                            UpdateHud();
+                        }
+                        break;
+
+
+                    case "state":
+                        // khi lần đầu nhận state từ đối thủ mà chưa biết tên,
+                        // mình yêu cầu nó gửi lại "hello"
+                        if (!_opponentConnected)
+                        {
+                            _opponentConnected = true;
+                            SafeSend(new { type = "hello_req" });
+                        }
+
+                        if (_opponent == null) return;
+                        if (root.TryGetProperty("x", out var x) && root.TryGetProperty("y", out var y))
+                        {
+                            _opponent.Left = x.GetInt32();
+                            _opponent.Top = y.GetInt32();
+
+                            if (!_gameStarted)
+                            {
+                                _gameStarted = true;
+                                lblStatusGame.Text = "Đang chơi…";
+                            }
+                        }
+                        break;
+
+                    case "shoot":
+                        if (!_gameStarted)
+                        {
+                            _gameStarted = true;
+                            lblStatusGame.Text = "Đang chơi…";
+                        }
+                        SpawnOpponentBullet();
+                        break;
+
+                    case "hp":
+                        if (root.TryGetProperty("p", out var pProp) && root.TryGetProperty("o", out var oProp))
+                        {
+                            int pHp = pProp.GetInt32();
+                            int oHp = oProp.GetInt32();
+
+                            if (_isHost)
+                            {
+                                _playerHp = pHp;
+                                _opponentHp = oHp;
+                            }
+                            else
+                            {
+                                _opponentHp = pHp; // host
+                                _playerHp = oHp;   // local client
+                            }
+
+                            UpdateHud();
+                        }
+                        break;
+
+                    case "result":
+                        if (_gameEnded) return;
+                        if (root.TryGetProperty("winner", out var wProp))
+                        {
+                            string winnerName = wProp.GetString();
+                            bool youWin = string.Equals(winnerName, _localName,
+                                StringComparison.OrdinalIgnoreCase);
+                            EndGame(youWin, fromNetwork: true);
+                        }
+                        break;
+
+                    case "quit":
+                        if (_gameEnded) return;
+                        _gameEnded = true;
+                        try { _gameTimer?.Stop(); } catch { }
+                        lblStatusGame.Text = "Đối thủ đã thoát trận.";
+                        MarkRoomEnd();
+                        MessageBox.Show(
+                            "Đối thủ đã thoát trận. Quay lại lobby hoặc tạo phòng khác.",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                        Close();
+                        break;
+                }
+            }
+            catch
+            {
+                // bỏ qua message lỗi
+            }
+        }
+
+        private void OnDisconnectedUI()
+        {
+            if (_gameEnded) return;
+            _gameEnded = true;
+            _gameTimer?.Stop();
+            lblStatusGame.Text = "Mất kết nối.";
+            MessageBox.Show("Kết nối bị ngắt. Quay lại lobby hoặc tạo phòng khác.",
+                "Ngắt kết nối",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            Close();
+        }
+
+        private void SafeSend(object obj)
+        {
+            try
+            {
+                if (_network != null && _network.IsConnected)
+                {
+                    string json = JsonSerializer.Serialize(obj);
+                    _network.Send(json);
+                }
+            }
+            catch { }
         }
 
         // ================== ROOM STATUS (END) ==================
@@ -646,13 +776,11 @@ namespace plan_fighting_super_start
             {
                 if (!string.IsNullOrEmpty(_roomId))
                 {
-                    // Fire-and-forget, không cần await
                     _ = RoomApi.EndRoomAsync(_roomId);
                 }
             }
             catch
             {
-                // tránh crash nếu lỗi mạng
             }
         }
 
@@ -730,124 +858,6 @@ namespace plan_fighting_super_start
             SafeSend(new { type = "state", x = _player.Left, y = _player.Top });
         }
 
-        private void ProcessNetworkMessage(string msg)
-        {
-            if (string.IsNullOrWhiteSpace(msg)) return;
-            if (msg == "START_GAME") return;
-
-            try
-            {
-                using var doc = JsonDocument.Parse(msg);
-                var root = doc.RootElement;
-                if (!root.TryGetProperty("type", out var tp)) return;
-                string type = tp.GetString();
-
-                switch (type)
-                {
-                    case "hello":
-                        if (root.TryGetProperty("name", out var n))
-                        {
-                            _opponentConnected = true;
-
-                            _opponentName = n.GetString() ?? _opponentName;
-                            this.Text = (_isHost ? "[HOST] " : "[CLIENT] ") +
-                                        "Room: " + _roomId + "  - vs " + _opponentName;
-                            lblStatusGame.Text = "Đã kết nối với " + _opponentName;
-                            UpdateHud();
-                            // Nếu muốn dùng avatar góc màn hình:
-                            // LoadOpponentAvatarAsync(_opponentName);
-                        }
-                        break;
-
-                    case "state":
-                        if (_opponent == null) return;
-                        if (root.TryGetProperty("x", out var x) && root.TryGetProperty("y", out var y))
-                        {
-                            _opponent.Left = x.GetInt32();
-                            _opponent.Top = y.GetInt32();
-
-                            if (!_gameStarted)
-                            {
-                                _gameStarted = true;
-                                lblStatusGame.Text = "Đang chơi…";
-                            }
-                        }
-                        break;
-
-                    case "shoot":
-                        if (!_gameStarted)
-                        {
-                            _gameStarted = true;
-                            lblStatusGame.Text = "Đang chơi…";
-                        }
-                        SpawnOpponentBullet();
-                        break;
-
-                    case "hp":
-                        if (root.TryGetProperty("p", out var pProp) && root.TryGetProperty("o", out var oProp))
-                        {
-                            int pHp = pProp.GetInt32();
-                            int oHp = oProp.GetInt32();
-
-                            if (_isHost)
-                            {
-                                _playerHp = pHp;
-                                _opponentHp = oHp;
-                            }
-                            else
-                            {
-                                _opponentHp = pHp; // host
-                                _playerHp = oHp;   // local client
-                            }
-
-                            UpdateHud();
-                        }
-                        break;
-
-                    case "result":
-                        if (_gameEnded) return;
-                        if (root.TryGetProperty("winner", out var wProp))
-                        {
-                            string winnerName = wProp.GetString();
-                            bool youWin = string.Equals(winnerName, _localName,
-                                StringComparison.OrdinalIgnoreCase);
-                            EndGame(youWin, fromNetwork: true);
-                        }
-                        break;
-                }
-            }
-            catch
-            {
-                // bỏ qua message lỗi
-            }
-        }
-
-        private void OnDisconnectedUI()
-        {
-            if (_gameEnded) return;
-            _gameEnded = true;
-            _gameTimer?.Stop();
-            lblStatusGame.Text = "Mất kết nối.";
-            MessageBox.Show("Kết nối bị ngắt. Quay lại lobby hoặc tạo phòng khác.",
-                "Ngắt kết nối",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-            Close();
-        }
-
-        private void SafeSend(object obj)
-        {
-            try
-            {
-                if (_network != null && _network.IsConnected)
-                {
-                    string json = JsonSerializer.Serialize(obj);
-                    _network.Send(json);
-                }
-            }
-            catch { }
-        }
-
         // ================== SHOOT & BULLETS ==================
 
         private void FirePlayerBullet()
@@ -861,7 +871,7 @@ namespace plan_fighting_super_start
                     new Rectangle(0, 0, _playerBulletBaseImg.Width, _playerBulletBaseImg.Height),
                     _playerBulletBaseImg.PixelFormat);
 
-                if (_playerBulletDir > 0) // nếu bay xuống thì xoay 180
+                if (_playerBulletDir > 0)
                     img.RotateFlip(RotateFlipType.Rotate180FlipNone);
 
                 _playerBullet.Image?.Dispose();
@@ -918,7 +928,6 @@ namespace plan_fighting_super_start
 
             lblStatusGame.Text = "Trận đấu đã kết thúc";
 
-            // Đánh dấu phòng END khi trận kết thúc
             MarkRoomEnd();
 
             if (_isHost)
@@ -989,18 +998,25 @@ namespace plan_fighting_super_start
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (ask == DialogResult.Yes)
             {
-                // Đánh dấu phòng END khi người chơi chủ động thoát
+                // báo cho đối thủ mình thoát
+                SafeSend(new { type = "quit", name = _localName });
+
                 MarkRoomEnd();
 
                 try { _gameTimer?.Stop(); } catch { }
-                try { (_network as IDisposable)?.Dispose(); _network = null; } catch { }
+                try
+                {
+                    (_network as IDisposable)?.Dispose();
+                    _network = null;
+                }
+                catch { }
+
                 Close();
             }
         }
 
         private void Form6_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // nếu form bị đóng trực tiếp, vẫn đánh dấu END
             MarkRoomEnd();
 
             try
@@ -1016,50 +1032,7 @@ namespace plan_fighting_super_start
         {
         }
 
-        // ================== AVATAR TỪ S3 (hiện chưa dùng) ==================
 
-        private async void LoadPlayerAvatarAsync()
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(AccountData.Username) || _player == null)
-                    return;
-
-                string key = $"avatars/avatars/{AccountData.Username}.png";
-
-                var img = await _s3.GetImageAsync(key);
-                if (img == null) return;
-
-                _player.Image?.Dispose();
-                _player.Image = img;
-                _player.SizeMode = PictureBoxSizeMode.StretchImage;
-                _player.BackColor = Color.Transparent;
-            }
-            catch
-            {
-            }
-        }
-
-        private async void LoadOpponentAvatarAsync(string opponentName)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(opponentName) || _opponent == null)
-                    return;
-
-                string key = $"avatars/avatars/{opponentName}.png";
-
-                var img = await _s3.GetImageAsync(key);
-                if (img == null) return;
-
-                _opponent.Image?.Dispose();
-                _opponent.Image = img;
-                _opponent.SizeMode = PictureBoxSizeMode.StretchImage;
-                _opponent.BackColor = Color.Transparent;
-            }
-            catch
-            {
-            }
-        }
+        
     }
 }

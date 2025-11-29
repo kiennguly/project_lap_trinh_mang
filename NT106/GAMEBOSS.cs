@@ -520,17 +520,32 @@ namespace plan_fighting_super_start
 
         // Survival timer 
 
+        // Survival timer 
         private void survivalTimer_Tick(object sender, EventArgs e)
         {
-            if (isPaused) return;
+            if (isPaused || gameEnded) return;
 
             survivalTime--;
+
             if (survivalTime <= 0)
             {
+                // không cho xuống âm để hiển thị cho đẹp
+                survivalTime = 0;
+
                 ClearAllBulletsAndExplosions();
-                EndGame(true);
+
+                // Nếu boss còn máu -> thua, ngược lại (boss chết rồi) -> thắng
+                if (bossHealthBar.Value > 0)
+                {
+                    EndGame(false);   // GAME OVER
+                }
+                else
+                {
+                    EndGame(true);    // WIN
+                }
             }
         }
+
 
         // Kết thúc game 
 

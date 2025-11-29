@@ -152,7 +152,7 @@ namespace plan_fighting_super_start
             label3.Name = "label3";
             label3.Size = new Size(100, 28);
             label3.TabIndex = 13;
-            label3.Text = "DAMAGE";
+            label3.Text = "DAMAGE Plus";
             // 
             // textBox2
             // 

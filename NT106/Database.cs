@@ -188,6 +188,19 @@ namespace plan_fighting_super_start
             }
         }
 
+        //XÓA BẠN
+        public static async Task<bool> RemoveFriendAsync(string me, string other)
+        {
+            // TODO:
+            // - Xóa bản ghi quan hệ (me -> other) và (other -> me).
+            // - Nếu bạn lưu 1 dòng 2 chiều thì xóa theo khóa chung.
+            // Trả true nếu thành công.
+            return await Task.Run(() => {
+                // tạm thời luôn true cho test UI
+                return true;
+            });
+        }
+
         //  ĐĂNG KÝ (CÓ EMAIL)
         public static bool RegisterAccount(string username, string password, string email)
         {

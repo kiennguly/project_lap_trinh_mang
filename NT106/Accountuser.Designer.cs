@@ -178,9 +178,9 @@ namespace plan_fighting_super_start
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnClose.ForeColor = Color.FromArgb(0, 192, 192);
-            btnClose.Location = new Point(210, 295);
+            btnClose.Location = new Point(214, 336);
             btnClose.Name = "btnClose";
-            btnClose.Size = new Size(128, 40);
+            btnClose.Size = new Size(164, 40);
             btnClose.TabIndex = 10;
             btnClose.Text = "Đóng";
             btnClose.UseVisualStyleBackColor = false;
@@ -191,9 +191,9 @@ namespace plan_fighting_super_start
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
             button3.ForeColor = Color.FromArgb(0, 192, 192);
-            button3.Location = new Point(30, 297);
+            button3.Location = new Point(34, 338);
             button3.Name = "button3";
-            button3.Size = new Size(136, 38);
+            button3.Size = new Size(164, 40);
             button3.TabIndex = 11;
             button3.Text = "Đổi Pass";
             button3.UseVisualStyleBackColor = true;
@@ -204,9 +204,9 @@ namespace plan_fighting_super_start
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
             button1.ForeColor = Color.FromArgb(0, 192, 192);
-            button1.Location = new Point(372, 297);
+            button1.Location = new Point(394, 338);
             button1.Name = "button1";
-            button1.Size = new Size(141, 38);
+            button1.Size = new Size(164, 40);
             button1.TabIndex = 12;
             button1.Text = "GiftCode";
             button1.UseVisualStyleBackColor = true;
@@ -217,9 +217,9 @@ namespace plan_fighting_super_start
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
             button2.ForeColor = Color.FromArgb(0, 192, 192);
-            button2.Location = new Point(537, 295);
+            button2.Location = new Point(574, 338);
             button2.Name = "button2";
-            button2.Size = new Size(63, 40);
+            button2.Size = new Size(164, 40);
             button2.TabIndex = 13;
             button2.Text = "Friend";
             button2.UseVisualStyleBackColor = true;
@@ -232,7 +232,7 @@ namespace plan_fighting_super_start
             BackColor = Color.FromArgb(10, 15, 30);
             BackgroundImage = Properties.Resource.anh_form_account_user;
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(600, 380);
+            ClientSize = new Size(894, 409);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(button3);

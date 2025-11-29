@@ -19,6 +19,7 @@ namespace plan_fighting_super_start
         private Button btnRefresh;
         private Label lblTitle;
         private Label lblLoading;
+        private Button button1;
 
         protected override void Dispose(bool disposing)
         {
@@ -60,7 +61,7 @@ namespace plan_fighting_super_start
             lvFriends.Location = new Point(20, 50);
             lvFriends.MultiSelect = false;
             lvFriends.Name = "lvFriends";
-            lvFriends.Size = new Size(520, 350);
+            lvFriends.Size = new Size(622, 350);
             lvFriends.TabIndex = 0;
             lvFriends.UseCompatibleStateImageBehavior = false;
             lvFriends.View = View.Details;
@@ -86,7 +87,7 @@ namespace plan_fighting_super_start
             txtFriendUsername.BackColor = Color.FromArgb(15, 25, 45);
             txtFriendUsername.BorderStyle = BorderStyle.FixedSingle;
             txtFriendUsername.ForeColor = Color.White;
-            txtFriendUsername.Location = new Point(172, 418);
+            txtFriendUsername.Location = new Point(199, 418);
             txtFriendUsername.Name = "txtFriendUsername";
             txtFriendUsername.Size = new Size(210, 27);
             txtFriendUsername.TabIndex = 1;
@@ -106,7 +107,7 @@ namespace plan_fighting_super_start
             // 
             btnSendRequest.Font = new Font("Arial", 10.2F, FontStyle.Bold);
             btnSendRequest.ForeColor = Color.FromArgb(0, 192, 192);
-            btnSendRequest.Location = new Point(388, 418);
+            btnSendRequest.Location = new Point(444, 419);
             btnSendRequest.Name = "btnSendRequest";
             btnSendRequest.Size = new Size(110, 27);
             btnSendRequest.TabIndex = 3;
@@ -118,7 +119,7 @@ namespace plan_fighting_super_start
             // 
             btnAccept.Font = new Font("Arial", 10.2F, FontStyle.Bold);
             btnAccept.ForeColor = Color.FromArgb(0, 192, 192);
-            btnAccept.Location = new Point(560, 95);
+            btnAccept.Location = new Point(661, 98);
             btnAccept.Name = "btnAccept";
             btnAccept.Size = new Size(140, 32);
             btnAccept.TabIndex = 4;
@@ -130,7 +131,7 @@ namespace plan_fighting_super_start
             // 
             btnDecline.Font = new Font("Arial", 10.2F, FontStyle.Bold);
             btnDecline.ForeColor = Color.FromArgb(0, 192, 192);
-            btnDecline.Location = new Point(560, 137);
+            btnDecline.Location = new Point(661, 140);
             btnDecline.Name = "btnDecline";
             btnDecline.Size = new Size(140, 32);
             btnDecline.TabIndex = 5;
@@ -142,7 +143,7 @@ namespace plan_fighting_super_start
             // 
             btnRefresh.Font = new Font("Arial", 10.2F, FontStyle.Bold);
             btnRefresh.ForeColor = Color.FromArgb(0, 192, 192);
-            btnRefresh.Location = new Point(560, 53);
+            btnRefresh.Location = new Point(661, 56);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(140, 32);
             btnRefresh.TabIndex = 6;
@@ -166,7 +167,7 @@ namespace plan_fighting_super_start
             lblLoading.AutoSize = true;
             lblLoading.Font = new Font("Consolas", 9.75F, FontStyle.Bold);
             lblLoading.ForeColor = Color.Cyan;
-            lblLoading.Location = new Point(560, 30);
+            lblLoading.Location = new Point(661, 33);
             lblLoading.Name = "lblLoading";
             lblLoading.Size = new Size(99, 20);
             lblLoading.TabIndex = 11;
@@ -177,7 +178,7 @@ namespace plan_fighting_super_start
             // 
             button1.Font = new Font("Arial", 10.2F, FontStyle.Bold);
             button1.ForeColor = Color.FromArgb(0, 192, 192);
-            button1.Location = new Point(560, 410);
+            button1.Location = new Point(661, 413);
             button1.Name = "button1";
             button1.Size = new Size(140, 32);
             button1.TabIndex = 12;
@@ -190,7 +191,7 @@ namespace plan_fighting_super_start
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(10, 15, 30);
-            ClientSize = new Size(720, 460);
+            ClientSize = new Size(816, 460);
             Controls.Add(button1);
             Controls.Add(lblLoading);
             Controls.Add(lblTitle);
@@ -213,7 +214,5 @@ namespace plan_fighting_super_start
         }
 
         #endregion
-
-        private Button button1;
     }
 }
