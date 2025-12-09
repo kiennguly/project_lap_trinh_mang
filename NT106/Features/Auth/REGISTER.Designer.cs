@@ -22,7 +22,7 @@ namespace plan_fighting_super_start
         private PictureBox pictureBox1;
         private PictureBox pictureBox3;
 
-        // 🔹 MỚI
+        // Avatar
         private PictureBox pictureBoxAvatar;
         private Button buttonChooseAvatar;
 
@@ -67,6 +67,8 @@ namespace plan_fighting_super_start
             textBoxUser.Size = new Size(200, 30);
             textBoxUser.TabIndex = 0;
             textBoxUser.Text = "Tên đăng nhập";
+            textBoxUser.Enter += textBoxUser_Enter;
+            textBoxUser.Leave += textBoxUser_Leave;
             // 
             // textBoxPass
             // 
@@ -79,8 +81,9 @@ namespace plan_fighting_super_start
             textBoxPass.Size = new Size(200, 30);
             textBoxPass.TabIndex = 2;
             textBoxPass.Text = "Mật khẩu";
-            textBoxPass.UseSystemPasswordChar = true;
-            textBoxPass.TextChanged += textBoxPass_TextChanged;
+            textBoxPass.UseSystemPasswordChar = false;
+            textBoxPass.Enter += textBoxPass_Enter;
+            textBoxPass.Leave += textBoxPass_Leave;
             // 
             // textBoxEmail
             // 
@@ -93,6 +96,8 @@ namespace plan_fighting_super_start
             textBoxEmail.Size = new Size(200, 30);
             textBoxEmail.TabIndex = 1;
             textBoxEmail.Text = "Gmail";
+            textBoxEmail.Enter += textBoxEmail_Enter;
+            textBoxEmail.Leave += textBoxEmail_Leave;
             // 
             // buttonRegister
             // 

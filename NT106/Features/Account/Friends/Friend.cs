@@ -390,7 +390,12 @@ namespace plan_fighting_super_start
             if (colIndex == 2)
             {
                 var dm = new ChatRieng(entry.Username);
-                dm.Show();
+
+                this.Hide();        // Ẩn form hiện tại
+
+                dm.ShowDialog();    // Chờ form Chat đóng
+
+                this.Show();        // Khi Chat đóng, hiện lại form
             }
         }
 

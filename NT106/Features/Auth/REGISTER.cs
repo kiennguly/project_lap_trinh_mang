@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace plan_fighting_super_start
@@ -19,30 +20,27 @@ namespace plan_fighting_super_start
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            // Placeholder cho 3 textbox
-            if (string.IsNullOrWhiteSpace(textBoxUser.Text) ||
-                textBoxUser.Text == "Tên đăng nhập")
+            // --- User ---
+            if (string.IsNullOrWhiteSpace(textBoxUser.Text))
             {
                 textBoxUser.Text = "Tên đăng nhập";
-                textBoxUser.ForeColor = Color.Gray;
             }
+            textBoxUser.ForeColor = Color.Gray;
 
-            if (string.IsNullOrWhiteSpace(textBoxEmail.Text) ||
-                textBoxEmail.Text == "Gmail")
+            // --- Email ---
+            if (string.IsNullOrWhiteSpace(textBoxEmail.Text))
             {
                 textBoxEmail.Text = "Gmail";
-                textBoxEmail.ForeColor = Color.Gray;
             }
+            textBoxEmail.ForeColor = Color.Gray;
 
-            if (string.IsNullOrWhiteSpace(textBoxPass.Text) ||
-                textBoxPass.Text == "Mật khẩu")
+            // --- Password ---
+            if (string.IsNullOrWhiteSpace(textBoxPass.Text))
             {
                 textBoxPass.Text = "Mật khẩu";
-                textBoxPass.ForeColor = Color.Gray;
-                textBoxPass.UseSystemPasswordChar = false;
             }
-
-            
+            textBoxPass.ForeColor = Color.Gray;
+            textBoxPass.UseSystemPasswordChar = false;
         }
 
         // NÚT ĐĂNG KÝ – có async vì cần await upload ảnh
@@ -52,19 +50,25 @@ namespace plan_fighting_super_start
             string pass = textBoxPass.Text.Trim();
             string email = textBoxEmail.Text.Trim();
 
+            // Bỏ placeholder nếu user chưa sửa
+            if (user == "Tên đăng nhập") user = "";
+            if (email == "Gmail") email = "";
+            if (pass == "Mật khẩu") pass = "";
+
             // Kiểm tra nhập đầy đủ
-            if (string.IsNullOrWhiteSpace(user) || user == "Tên đăng nhập" ||
-                string.IsNullOrWhiteSpace(pass) || pass == "Mật khẩu" ||
-                string.IsNullOrWhiteSpace(email) || email == "Gmail")
+            if (string.IsNullOrWhiteSpace(user) ||
+                string.IsNullOrWhiteSpace(pass) ||
+                string.IsNullOrWhiteSpace(email))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ Tên đăng nhập, Mật khẩu và Gmail!");
+                MessageBox.Show("Vui lòng nhập đầy đủ Tên đăng nhập, Mật khẩu và Email!");
                 return;
             }
 
-            // Check format email đơn giản
-            if (!email.Contains("@") || !email.Contains("."))
+            // Check format email (cho cả Gmail cá nhân + Gmail doanh nghiệp)
+            if (!Regex.IsMatch(email,
+                    @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
             {
-                MessageBox.Show("Gmail không hợp lệ, vui lòng kiểm tra lại!");
+                MessageBox.Show("Email không hợp lệ, vui lòng kiểm tra lại!");
                 return;
             }
 
@@ -80,9 +84,9 @@ namespace plan_fighting_super_start
             {
                 await _imageService.UploadImageAsync(_avatarFilePath, user);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show("Upload ảnh avatar thất bại: " + ex.Message);
+                MessageBox.Show("Upload ảnh avatar thất bại, vui lòng thử lại!");
                 return;
             }
 
@@ -100,10 +104,10 @@ namespace plan_fighting_super_start
             }
         }
 
-        // Ẩn password khi bắt đầu gõ
-        private void textBoxPass_TextChanged(object sender, EventArgs e)
+        // Ẩn password / placeholder khi focus
+        private void textBoxPass_Enter(object sender, EventArgs e)
         {
-            if (textBoxPass.ForeColor == Color.Gray && textBoxPass.Text == "Mật khẩu")
+            if (textBoxPass.Text == "Mật khẩu")
             {
                 textBoxPass.Text = "";
                 textBoxPass.ForeColor = Color.FromArgb(0, 192, 192);
@@ -111,11 +115,58 @@ namespace plan_fighting_super_start
             }
         }
 
-        // Nếu  muốn pictureBox1 là nút đóng form / quay lại
+        private void textBoxPass_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxPass.Text))
+            {
+                textBoxPass.UseSystemPasswordChar = false;
+                textBoxPass.Text = "Mật khẩu";
+                textBoxPass.ForeColor = Color.Gray;
+            }
+        }
+
+        // Placeholder cho User
+        private void textBoxUser_Enter(object sender, EventArgs e)
+        {
+            if (textBoxUser.Text == "Tên đăng nhập")
+            {
+                textBoxUser.Text = "";
+                textBoxUser.ForeColor = Color.FromArgb(0, 192, 192);
+            }
+        }
+
+        private void textBoxUser_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxUser.Text))
+            {
+                textBoxUser.Text = "Tên đăng nhập";
+                textBoxUser.ForeColor = Color.Gray;
+            }
+        }
+
+        // Placeholder cho Email
+        private void textBoxEmail_Enter(object sender, EventArgs e)
+        {
+            if (textBoxEmail.Text == "Gmail")
+            {
+                textBoxEmail.Text = "";
+                textBoxEmail.ForeColor = Color.FromArgb(0, 192, 192);
+            }
+        }
+
+        private void textBoxEmail_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxEmail.Text))
+            {
+                textBoxEmail.Text = "Gmail";
+                textBoxEmail.ForeColor = Color.Gray;
+            }
+        }
+
+        // Nếu muốn pictureBox1 là nút đóng form / quay lại
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            // this.Close();
-            // hoặc this.Hide();
+            this.Close();
         }
 
         // NÚT CHỌN ẢNH AVATAR

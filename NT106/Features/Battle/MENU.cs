@@ -327,13 +327,11 @@ namespace plan_fighting_super_start
                 {
                     AccountData.PlaneSkin = key;
                     try { Database.UpdateAccountData(); } catch { }
-                    MessageBox.Show("Đã đổi máy bay!", "Thông báo");
                 }
                 else MessageBox.Show("Không nhận được key máy bay từ server!", "Lỗi");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Đổi máy bay thất bại: " + ex.Message, "Lỗi");
             }
         }
 
@@ -388,7 +386,7 @@ namespace plan_fighting_super_start
                 // Chạy hàm UpdateAccountData trong thread khác để không khoá UI
                 await Task.Run(() => Database.UpdateAccountData());
 
-                MessageBox.Show("Cập nhật thành công!");
+                
             }
             catch (Exception ex)
             {

@@ -67,7 +67,6 @@ namespace plan_fighting_super_start
             bool laCuaToi = string.Equals(tu, _toi, StringComparison.OrdinalIgnoreCase);
             ChenDong(tu, noiDung, laCuaToi);
 
-            // ⛔ Không gọi API ở đây, vì bên gửi đã ghi lên S3
         }
 
         // ================== GỬI TIN ==================
@@ -112,7 +111,6 @@ namespace plan_fighting_super_start
             }
             catch
             {
-                // nếu lỗi API thì thôi, vẫn chat LAN bình thường
             }
         }
 
@@ -142,7 +140,6 @@ namespace plan_fighting_super_start
             }
             catch
             {
-                // nếu lỗi thì bỏ qua, không crash form
             }
         }
 

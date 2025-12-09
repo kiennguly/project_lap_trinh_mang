@@ -75,6 +75,7 @@ namespace plan_fighting_super_start
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
+            
             string username = textBoxUser.Text.Trim();
             string password = textBoxPass.Text.Trim();
 
@@ -111,6 +112,7 @@ namespace plan_fighting_super_start
                 MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
         }
 
 

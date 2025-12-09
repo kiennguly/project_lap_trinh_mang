@@ -60,9 +60,7 @@ namespace plan_fighting_super_start
             PropertyNameCaseInsensitive = true
         };
 
-        // =========================================================
         //                    ACCOUNT / LOGIN
-        // =========================================================
 
         //  ĐĂNG NHẬP
         public static bool CheckLogin(string username, string password)
@@ -139,7 +137,7 @@ namespace plan_fighting_super_start
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi kết nối khi đăng nhập: " + ex.Message);
+                MessageBox.Show("Lỗi kết nối khi đăng nhập");
                 return false;
             }
         }
@@ -290,9 +288,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // =========================================================
         //                    QUÊN / ĐỔI MẬT KHẨU
-        // =========================================================
 
         //  QUÊN MẬT KHẨU – GỬI MÃ
         public static bool RequestResetCode(string username, string email)
@@ -422,9 +418,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // =========================================================
         //                    MATCH HISTORY
-        // =========================================================
 
         //  LƯU LỊCH SỬ ĐẤU
         public static void RecordMatchHistory(string winnerUsername, string loserUsername)
@@ -501,9 +495,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // =========================================================
         //                    ONLINE / OFFLINE
-        // =========================================================
 
         // SET ONLINE / OFFLINE
         public static async Task<bool> SetOnlineStatusAsync(string username, bool online)
@@ -533,9 +525,7 @@ namespace plan_fighting_super_start
             }
         }
 
-        // =========================================================
         //                    FRIEND API
-        // =========================================================
 
         public static async Task<List<FriendEntry>> GetFriendListAsync(string username)
         {
